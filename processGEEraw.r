@@ -1,3 +1,4 @@
+
 args <- commandArgs(trailingOnly=TRUE)
 datName <- args[1]
 if(is.na(datName)) stop('Dataset name is required')
@@ -10,5 +11,8 @@ install_local('~/projects/anno',dependencies=FALSE,quiet=TRUE) #won't install un
 library(anno)
 
 dat <- processGEEraw(datName)
+dat <- joinOrigData(dat,datName)
 
-write_csv(dat,glue('{datName}_anno.csv'))
+datF <- glue('{datName}_anno.csv')
+message(glue('Writing dataset {datF}...'))
+write_csv(dat,datF)
