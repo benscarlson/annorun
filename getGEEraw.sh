@@ -5,15 +5,15 @@ if [ $# -eq 0 ]
     exit
 fi
 
-dataset=$1 #test_data
-gcspath=$2 #gs://annotate
+gcsExportP=$1
+annoRawP=$2
 
-echo "Preparing to download annotated data for $gcspath/$dataset from GCS"
+echo "Preparing to download annotated data for $gcsExportP from GCS"
 
-mkdir -p tempfolder_"$dataset"/raw
+mkdir -p $annoRawP
 
 echo "Deleting any previosly downloaded raw gee data for this dataset"
-rm tempfolder_"$dataset"/raw/*
+rm $annoRawP/*
 
 echo "Downloading data"
-gsutil -m cp $gcspath/$dataset/* tempfolder_"$dataset"/raw
+gsutil -m cp $gcsExportP/* $annoRawP

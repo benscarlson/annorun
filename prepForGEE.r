@@ -1,19 +1,23 @@
 args <- commandArgs(trailingOnly=TRUE)
-datName <- args[1]
-datP <- args[2]
-if(is.na(datName)) stop('Dataset name is required')
-if(is.na(datP)) stop('Path to datset is required')
+datPF <- args[1]
+datAnnoIdPF <- args[2]
+geeShapefileP <- args[3]
 
-library(dplyr)
-library(readr)
+# if(is.na(datName)) stop('Dataset name is required')
+# if(is.na(datP)) stop('Path to datset is required')
+spsm <- suppressPackageStartupMessages
 
-library(devtools)
+spsm(library(dplyr))
+spsm(library(readr))
+
+spsm(library(devtools))
 install_local('~/projects/anno',dependencies=FALSE,quiet=TRUE) #won't install unless code changed
-library(anno)
+spsm(library(anno))
 
-testData <- read_csv(datP)
+dat <- read_csv(datPF,col_type=cols())
 
-#wd <- getwd()
-#setwd('~/scratch/anno')
-prepForGEE(dat=testData,datName=datName)
-#setwd(wd)
+prepForGEE(dat=dat,
+  datAnnoIdPF=datAnnoIdPF,
+  geeShapefileP=geeShapefileP)
+
+

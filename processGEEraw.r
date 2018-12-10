@@ -1,7 +1,10 @@
 
 args <- commandArgs(trailingOnly=TRUE)
-datName <- args[1]
-if(is.na(datName)) stop('Dataset name is required')
+rawP <- args[1]
+outPF <- args[2]
+joinToPF <- args[3]
+
+if(is.na(rawP)) stop('Path to raw GEE results is required')
 
 library(glue)
 library(readr)
@@ -10,9 +13,9 @@ library(devtools)
 install_local('~/projects/anno',dependencies=FALSE,quiet=TRUE) #won't install unless code changed
 library(anno)
 
-dat <- processGEEraw(datName)
-dat <- joinOrigData(dat,datName)
+joinToDat <- readr::read_csv(joinToPF,col_types=readr::cols())
 
-datF <- glue('{datName}_anno.csv')
-message(glue('Writing dataset {datF}...'))
-write_csv(dat,datF)
+dat <- processGEEraw(rawP,joinToDat)
+
+message(glue('Writing dataset {outPF}...'))
+write_csv(dat,outPF)

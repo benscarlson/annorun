@@ -7,21 +7,23 @@ if [ $# -eq 0 ]
     exit
 fi
 
-datName=$1 #test_data
-gcspath=$2 #gs://annotate/export_to_ee
-assetpath=$3 #users/benscarlson/annotate/tracks
+geeShapefileP=$1
+geeDatName=$2 #test_data
+gcsPath=$3 #gs://annotate/export_to_ee
+geeAssetPF=$4 #users/benscarlson/annotate/tracks
 
-echo $datName
-echo $gcspath
-echo $assetpath
+echo $geeShapefileP
+echo $geeDatName
+echo $gcsPath
+echo $geeAssetPF
 
-echo "Uploading dataset $datName to $gcspath/$datName"
-gsutil -m cp -r tempfolder_"$datName"/shp/$datName $gcspath
+echo "Uploading dataset $datName to $gcsPath/$datName"
+gsutil -m cp -r $geeShapefileP $gcsPath
 
 echo "Deleting asset in GEE if it already exists"
 echo "This will return an error if the asset does not already exist."
 #TODO: check if dataset already exists before doing rm, since error message is confusing
-earthengine rm $assetpath/$datName
+earthengine rm $geeAssetPF
 
 echo "Starting GEE import task"
-earthengine upload table $gcspath/$datName/$datName.shp --asset_id $assetpath/$datName
+earthengine upload table $gcsPath/$geeDatName.shp --asset_id $geeAssetPF
