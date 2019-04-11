@@ -26,4 +26,6 @@ echo "This will return an error if the asset does not already exist."
 earthengine rm $geeAssetPF
 
 echo "Starting GEE import task"
-earthengine upload table $gcsPath/$geeDatName.shp --asset_id $geeAssetPF
+#TODO: using $geeShapefileP in this way assumes it is just a single name, not a path
+# Use this to get dsn? ${geeShapefileP##*/}
+earthengine upload table $gcsPath/$geeShapefileP.shp --asset_id $geeAssetPF

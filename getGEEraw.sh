@@ -1,4 +1,5 @@
 #getGEEraw.sh test_beu gs://annotate
+#TODO: retire this script
 if [ $# -eq 0 ]
   then
     echo "No arguments supplied. Exiting"

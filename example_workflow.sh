@@ -1,4 +1,8 @@
 
+#----
+#---- Example workflow for annotating movement data
+#----
+
 annorun=~/projects/annorun #this is where you put the annorun code
 geeDatName=test_data_anno #whatever you want to call the dataset
 datPF=$annorun/data/test_data.csv
@@ -8,7 +12,7 @@ gcsPath=gs://annotate/export_to_ee/$geeDatName
 geeAssetPF=users/benscarlson/annotate/tracks/$geeDatName
 annoRawP=/Users/benc/scratch/anno/"$geeDatName"_raw
 gcsExportP=gs://annotate/$geeDatName
-outPF=/Users/benc/scratch/anno/"$geeDatName"2.csv #TODO: need a better name
+#outPF=/Users/benc/scratch/anno/"$geeDatName"2.csv #TODO: need a better name
 
 cd ~/scratch/anno #go to the directory where you want the final results
 
@@ -34,7 +38,10 @@ $annorun/uploadToGee.sh $geeShapefileP $geeDatName $gcsPath $assetPath
 $annorun/getGEEraw.sh $gcsExportP $annoRawP
 
 #Process the raw results and finalize the file
-Rscript $annorun/processGEEraw.r $annoRawP $outPF $datAnnoIdPF
+#Note that here we are overwriting the file, so make a backup copy
+cp $datAnnoIdPF $datAnnoIdPF.bak
+
+Rscript $annorun/processGEEraw.r $annoRawP $datAnnoIdPF $datAnnoIdPF
 
 #TODO: figure out the best way to clean up
 #rm -r tempfolder_"$datName" #clean up - remove temporary files and folders
